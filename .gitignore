@@ -1,2 +1,3 @@
-.idea
-backend/src
+.idea/workspace.xml
+backend/src/*
+frontend/src/*
