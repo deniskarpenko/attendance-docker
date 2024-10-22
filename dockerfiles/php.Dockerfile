@@ -4,7 +4,7 @@ FROM php:8.3-fpm
 # Set working directory
 WORKDIR /var/www
 
-# Install system dependencies
+# Install dependencies for PHP and Laravel
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -18,10 +18,10 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo mbstring gd
 
 # Install Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Copy existing application directory
-COPY ./src /var/www
+# Copy existing application directory (optional)
+COPY . /var/www
 
-# Install Laravel dependencies
-#RUN composer install --no-interaction --no-scripts --prefer-dist
+# Expose port 9000 for PHP-FPM
+EXPOSE 9000
