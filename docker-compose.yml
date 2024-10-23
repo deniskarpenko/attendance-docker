@@ -38,8 +38,8 @@ services:
     container_name: mysql_db
     environment:
       MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: laravel
-      MYSQL_USER: root
+      MYSQL_DATABASE: attendance
+      MYSQL_USER: attendance_admin
       MYSQL_PASSWORD: secret
     volumes:
       - mysql_data:/var/lib/mysql
@@ -58,7 +58,20 @@ services:
       - "8080:8080"
     networks:
       - app_network
-
+  # phpMyAdmin Service
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin_service
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: secret
+      PMA_ABSOLUTE_URI: http://localhost:8081
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+    networks:
+      - app_network
 # Volumes
 volumes:
   mysql_data:
