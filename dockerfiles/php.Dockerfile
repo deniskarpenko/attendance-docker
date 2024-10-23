@@ -17,11 +17,15 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     && docker-php-ext-install pdo mbstring gd
 
+RUN docker-php-ext-install pdo pdo_mysql mysqli
+
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy existing application directory (optional)
 COPY . /var/www
+
+RUN chown -R www-data:www-data /var/www
 
 # Expose port 9000 for PHP-FPM
 EXPOSE 9000

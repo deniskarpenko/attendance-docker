@@ -9,12 +9,8 @@ services:
     container_name: php_app
     volumes:
       - ./backend:/var/www
-    environment:
-      - APP_ENV=local
-      - DB_HOST=mysql
-      - DB_DATABASE=laravel
-      - DB_USERNAME=root
-      - DB_PASSWORD=secret
+    env_file:
+      - env/php.env
     networks:
       - app_network
 
@@ -36,11 +32,8 @@ services:
   mysql:
     image: mysql:latest
     container_name: mysql_db
-    environment:
-      MYSQL_ROOT_PASSWORD: secret
-      MYSQL_DATABASE: attendance
-      MYSQL_USER: attendance_admin
-      MYSQL_PASSWORD: secret
+    env_file:
+      - env/mysql.env
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
@@ -62,10 +55,8 @@ services:
   phpmyadmin:
     image: phpmyadmin:latest
     container_name: phpmyadmin_service
-    environment:
-      PMA_HOST: mysql
-      MYSQL_ROOT_PASSWORD: secret
-      PMA_ABSOLUTE_URI: http://localhost:8081
+    env_file:
+      - env/phpmyadmin.env
     ports:
       - "8081:80"
     depends_on:
